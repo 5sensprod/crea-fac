@@ -1,0 +1,341 @@
+/* Rôle : mise en page écran de la facture et de la barre d'actions. */
+.page{
+  max-width:950px;
+  margin:30px auto;
+  padding:40px;
+  font-size:12.5px;
+  background:#fff;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:30px;
+}
+
+.company .name{
+  display:block;
+  width:320px;
+  margin-bottom:4px;
+  font-size:15px;
+  font-weight:bold;
+}
+.company .line{
+  display:block;
+  width:320px;
+  margin:1px 0;
+}
+
+.logo-wrap{
+  position:relative;
+  text-align:right;
+}
+.logo-box{
+  display:inline-block;
+  padding:14px 22px;
+  background:#111;
+  color:#fff;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:26px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+.logo-box .prod{ color:var(--red); }
+#logoCustom{
+  display:none;
+  max-height:80px;
+  max-width:280px;
+  object-fit:contain;
+}
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:30px;
+}
+.bank strong{ display:block; margin-bottom:4px; }
+.bank .line,
+.client .line{ display:block; margin:1px 0; }
+.client{ text-align:right; }
+.client input{ width:260px; text-align:right; }
+.bank input{ width:260px; }
+
+.facture-title{
+  display:inline-block;
+  margin:0 0 22px 0;
+  padding:8px 22px;
+  background:var(--gray-bg);
+  font-size:19px;
+  font-weight:bold;
+}
+
+table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+  margin-bottom:22px;
+}
+th,td{
+  overflow:hidden;
+  padding:7px 9px;
+  border:1px solid var(--border);
+  text-align:left;
+  vertical-align:middle;
+  font-size:12px;
+}
+th{
+  border-bottom:1px solid var(--border-strong);
+  background:var(--gray-bg);
+  color:#333;
+  font-weight:600;
+}
+
+.meta-table th,
+.meta-table td{ text-align:center; }
+.meta-table input{ width:100%; text-align:center; }
+.meta-table col.c-numero{ width:20%; }
+.meta-table col.c-date{ width:16%; }
+.meta-table col.c-client{ width:20%; }
+.meta-table col.c-echeance{ width:20%; }
+.meta-table col.c-reglement{ width:24%; }
+.num-prefix{ font:inherit; }
+.num-suffix{
+  width:46px !important;
+  text-align:left !important;
+  letter-spacing:.5px;
+}
+.num-cell{ white-space:nowrap; }
+
+.lines-table th.num,
+.lines-table td.num{ text-align:right; }
+.lines-table td.desc input,
+.lines-table td.code input{ width:100%; }
+.lines-table td.num input{ width:100%; text-align:right; }
+.lines-table tbody tr td{ height:26px; }
+.lines-table tbody tr:last-child td{
+  padding-bottom:140px;
+  vertical-align:top;
+}
+.lines-table td.montant .montant-val{
+  display:block;
+  height:22px;
+  padding:2px;
+  line-height:1.4;
+}
+.lines-table td input{
+  height:22px;
+  padding:2px;
+  line-height:1.4;
+}
+.lines-table col.c-code{ width:12%; }
+.lines-table col.c-desc{ width:46%; }
+.lines-table col.c-qte{ width:10%; }
+.lines-table col.c-pu{ width:14%; }
+.lines-table col.c-montant{ width:14%; }
+.lines-table col.c-del{ width:4%; }
+
+.del-btn{
+  border:none;
+  background:none;
+  color:#c00;
+  font-size:14px;
+  font-weight:bold;
+  line-height:1;
+  cursor:pointer;
+}
+.add-line{ margin:-12px 0 22px 0; }
+.add-line button{
+  padding:5px 12px;
+  border:1px solid var(--border);
+  border-radius:3px;
+  background:#f5f5f5;
+  cursor:pointer;
+}
+.add-line button:hover{ background:#eaeaea; }
+
+.bottom-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:30px;
+}
+.echeances{ flex:1 1 auto; }
+.echeances h2{
+  margin:0 0 8px 0;
+  font-size:12px;
+  font-style:italic;
+  font-weight:bold;
+  text-decoration:underline;
+}
+.echeances input{ width:100%; }
+.echeances td.num,
+.echeances td.num input{ text-align:right; }
+.echeances col.c-e-date,
+.echeances col.c-e-montant,
+.echeances col.c-e-mode,
+.echeances col.c-e-solde{ width:25%; }
+
+.totals{ flex:0 0 260px; }
+.totals table{ width:100%; margin:0; }
+.totals td{ padding:6px 10px; }
+.totals .label{
+  width:55%;
+  background:var(--gray-bg);
+  font-weight:bold;
+}
+.totals .val{ text-align:right; }
+.totals .net-label,
+.totals .net-val{
+  background:var(--gray-bg);
+  font-size:13.5px;
+  font-weight:bold;
+}
+.totals .net-val{ text-align:right; }
+.tva-rate{
+  display:inline-block;
+  width:34px;
+  text-align:center;
+}
+
+footer{
+  margin-top:40px;
+  padding-top:8px;
+  border-top:1px solid var(--border);
+  color:#444;
+  text-align:center;
+  font-size:11px;
+}
+footer input{
+  width:420px;
+  text-align:center;
+}
+.toolbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  width:100%;
+  margin:0;
+  padding:16px 20px 10px;
+  background:#f2f2f2;
+}
+.toolbar-inner{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto;
+  align-items:end;
+  gap:16px;
+  max-width:950px;
+  margin:0 auto;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fff;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+.toolbar-controls{
+  display:grid;
+  gap:8px;
+  min-width:0;
+}
+.toolbar-group{
+  display:grid;
+  grid-template-columns:72px minmax(0, 1fr) auto;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+.toolbar-field{
+  color:#333;
+  font-size:12px;
+  font-weight:700;
+}
+.toolbar select{
+  width:100%;
+  min-width:0;
+  height:36px;
+  padding:0 10px;
+  border:1px solid var(--border-strong);
+  border-radius:6px;
+  background:#fff;
+  font-size:14px;
+}
+.toolbar select:focus{
+  background:#fff;
+  outline:2px solid rgba(0,0,0,.12);
+  outline-offset:1px;
+}
+.toolbar-actions{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width:190px;
+}
+.toolbar button{
+  min-height:36px;
+  padding:0 14px;
+  border:none;
+  border-radius:6px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.btn-light{
+  border:1px solid var(--border) !important;
+  background:#f6f6f6;
+  color:#222;
+}
+.btn-light:hover{ background:#eaeaea; }
+.btn-dark{ background:#111; color:#fff; }
+.btn-dark:hover{ background:#000; }
+.btn-red{ background:var(--red); color:#fff; }
+.btn-red:hover{ background:#c92c39; }
+
+@media (max-width:760px){
+  .toolbar{ padding:10px; }
+  .toolbar-inner{
+    grid-template-columns:1fr;
+    align-items:stretch;
+  }
+  .toolbar-group{ grid-template-columns:1fr; }
+  .toolbar-actions{
+    flex-direction:row;
+    min-width:0;
+  }
+  .toolbar-actions button{ flex:1 1 0; }
+}
+
+/* Commandes de logo déplacées dans la barre d'actions. */
+.toolbar-group-logo{
+  grid-template-columns:72px minmax(0, 1fr);
+}
+.toolbar-logo-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  min-width:0;
+}
+.toolbar .logo-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  padding:0 14px;
+  border:1px solid var(--border) !important;
+  border-radius:6px;
+  background:#f6f6f6;
+  color:#222;
+  font-size:13px;
+  font-weight:700;
+  line-height:1;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.toolbar .logo-btn:hover{
+  background:#eaeaea;
+}
+
+@media (max-width:760px){
+  .toolbar-group-logo{ grid-template-columns:1fr; }
+  .toolbar-logo-actions .logo-btn{ flex:1 1 auto; }
+}

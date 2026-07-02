@@ -1,0 +1,28 @@
+/* Rôle : règles d'impression et de conversion temporaire pour html2pdf. */
+.no-export{}
+body.exporting .no-export{ display:none !important; }
+body.exporting .lines-table col.c-del{ width:0 !important; }
+body.exporting .lines-table col.c-desc{ width:50% !important; }
+body.exporting td{
+  overflow:visible !important;
+  height:auto !important;
+}
+body.exporting .lines-table tbody tr td{ height:auto !important; }
+body.exporting .export-text{ line-height:1.4 !important; }
+
+@media print{
+  .no-export{ display:none !important; }
+  body{ background:#fff; }
+  .page{
+    margin:0;
+    padding:15px;
+    max-width:none;
+  }
+  input:hover,
+  input:focus,
+  span:hover,
+  span:focus{
+    background:transparent !important;
+    outline:none !important;
+  }
+}

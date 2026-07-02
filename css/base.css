@@ -1,0 +1,47 @@
+/* Rôle : variables globales, reset léger et styles des champs éditables. */
+:root{
+  --gray-bg:#f3f3f3;
+  --border:#ddd;
+  --border-strong:#ccc;
+  --text:#111;
+  --red:#e63946;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  color:var(--text);
+  background:#f2f2f2;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+span[contenteditable]{
+  border:none;
+  background:transparent;
+  font:inherit;
+  color:inherit;
+  padding:1px 2px;
+  border-radius:2px;
+}
+
+input[type="text"]:hover,
+input[type="date"]:hover,
+span[contenteditable]:hover{
+  background:#fff9d6;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus,
+span[contenteditable]:focus{
+  background:#fff3a0;
+  outline:1px dashed #999;
+}
+
+input[type="date"]{ font-family:inherit; }
+button{ font-family:inherit; }
+.hidden-file{ display:none; }
