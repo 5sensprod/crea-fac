@@ -44,3 +44,11 @@ export function getNumeroSuffixe(){
 export function saveNumeroSuffixe(numeroSuffixe){
   patchSettings({ numeroSuffixe });
 }
+
+export function getRegimeTva(){
+  return lire().regimeTva || '';
+}
+
+export function saveRegimeTva(regimeTva){
+  patchSettings({ regimeTva });
+}

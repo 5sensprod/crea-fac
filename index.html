@@ -22,9 +22,32 @@
         </div>
 
         <div class="toolbar-group">
-          <label class="toolbar-field" for="produitSelect">Produit</label>
-          <select id="produitSelect"></select>
-          <button type="button" class="btn-light" id="addProductBtn">Ajouter</button>
+  <label class="toolbar-field" for="produitSelect">Service</label>
+
+  <select id="produitSelect"></select>
+
+  <label class="toolbar-field" for="produitDescriptionInput">
+    Description
+  </label>
+
+  <input
+    id="produitDescriptionInput"
+    type="text"
+    placeholder="Ex. PocketConnect"
+    autocomplete="off"
+  >
+
+  <button type="button" class="btn-light" id="addProductBtn">
+    Ajouter
+  </button>
+</div>
+
+        <div class="toolbar-group">
+          <label class="toolbar-field" for="regimeTvaSelect">Régime TVA</label>
+          <select id="regimeTvaSelect">
+            <option value="standard">TVA applicable</option>
+            <option value="franchise-en-base">Auto-entrepreneur sans TVA</option>
+          </select>
         </div>
 
         <div class="toolbar-group toolbar-group-logo">
@@ -113,7 +136,7 @@
           <th>Description</th>
           <th class="num">Qté</th>
           <th class="num">Prix unitaire</th>
-          <th class="num">Montant HT</th>
+          <th class="num" id="montantHtLabel">Montant HT</th>
           <th class="no-export"></th>
         </tr>
       </thead>
@@ -153,15 +176,15 @@
       <div class="totals">
         <table>
           <tbody>
-            <tr>
-              <td class="label">Total HT</td>
+            <tr id="ligneTotalHt">
+              <td class="label" id="totalHtLabel">Total HT</td>
               <td class="val"><span id="totalHT">0,00</span></td>
             </tr>
-            <tr>
+            <tr id="ligneTva">
               <td class="label">TVA (<input type="text" class="tva-rate no-convert" id="tvaRate" value="20">%)</td>
               <td class="val"><span id="totalTVA">0,00</span></td>
             </tr>
-            <tr>
+            <tr id="ligneTotalTtc">
               <td class="label">Total TTC</td>
               <td class="val"><span id="totalTTC">0,00</span></td>
             </tr>
