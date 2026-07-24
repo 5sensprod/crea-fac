@@ -128,7 +128,7 @@
 
     <table class="lines-table" id="linesTable">
       <colgroup>
-        <col class="c-code"><col class="c-desc"><col class="c-qte"><col class="c-pu"><col class="c-montant"><col class="c-del">
+        <col class="c-code"><col class="c-desc"><col class="c-qte"><col class="c-pu"><col class="c-remise-pct"><col class="c-remise-montant"><col class="c-montant"><col class="c-del">
       </colgroup>
       <thead>
         <tr>
@@ -136,6 +136,8 @@
           <th>Description</th>
           <th class="num">Qté</th>
           <th class="num">Prix unitaire</th>
+          <th class="num">Remise %</th>
+          <th class="num">Remise €</th>
           <th class="num" id="montantHtLabel">Montant HT</th>
           <th class="no-export"></th>
         </tr>
@@ -176,6 +178,14 @@
       <div class="totals">
         <table>
           <tbody>
+            <tr id="ligneRemiseGlobale">
+              <td class="label">
+                Remise globale
+                (<input type="text" class="remise-globale-pct no-convert" id="remiseGlobalePct" value="0">%
+                + <input type="text" class="remise-globale-montant no-convert" id="remiseGlobaleMontant" value="0">€)
+              </td>
+              <td class="val">− <span id="totalRemiseGlobale">0,00</span></td>
+            </tr>
             <tr id="ligneTotalHt">
               <td class="label" id="totalHtLabel">Total HT</td>
               <td class="val"><span id="totalHT">0,00</span></td>

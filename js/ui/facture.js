@@ -3,6 +3,7 @@ import {
   calculerMontantHT,
   calculerTotaux,
   formatNum,
+  parseNum,
 } from "../core/calculs.js";
 import {
   REGIMES_TVA,
@@ -59,6 +60,10 @@ function createCell(className, child) {
 export function initFacture({ parametres, produits, tarifs, store }) {
   const tbody = $("#linesTable tbody");
   const tvaInput = $("#tvaRate");
+  const remiseGlobalePctInput = $("#remiseGlobalePct");
+  const remiseGlobaleMontantInput = $("#remiseGlobaleMontant");
+  const ligneRemiseGlobale = $("#ligneRemiseGlobale");
+  const totalRemiseGlobale = $("#totalRemiseGlobale");
   const regimeTvaSelect = $("#regimeTvaSelect");
   const montantHtLabel = $("#montantHtLabel");
   const totalHtLabel = $("#totalHtLabel");
@@ -195,6 +200,14 @@ export function initFacture({ parametres, produits, tarifs, store }) {
       className: "pu",
       value: ligne.prixUnitaire ?? "0,00",
     });
+    const remisePctInput = createInput({
+      className: "remise-pct",
+      value: ligne.remisePct ?? "0",
+    });
+    const remiseMontantInput = createInput({
+      className: "remise-montant",
+      value: ligne.remiseMontant ?? "0,00",
+    });
     const montantSpan = document.createElement("span");
     const delButton = document.createElement("button");
 
@@ -212,12 +225,16 @@ export function initFacture({ parametres, produits, tarifs, store }) {
 
     qteInput.addEventListener("input", calc);
     puInput.addEventListener("input", calc);
+    remisePctInput.addEventListener("input", calc);
+    remiseMontantInput.addEventListener("input", calc);
 
     tr.append(
       createCell("code", codeInput),
       createCell("desc", descInput),
       createCell("num", qteInput),
       createCell("num", puInput),
+      createCell("num", remisePctInput),
+      createCell("num", remiseMontantInput),
       createCell("num montant", montantSpan),
       createCell("no-export", delButton),
     );
@@ -260,21 +277,46 @@ export function initFacture({ parametres, produits, tarifs, store }) {
     document.querySelectorAll("#linesTable tbody tr").forEach((row) => {
       const qteInput = row.querySelector(".qte");
       const puInput = row.querySelector(".pu");
+      const remisePctInput = row.querySelector(".remise-pct");
+      const remiseMontantInput = row.querySelector(".remise-montant");
       const montantSpan = row.querySelector(".montant-val");
       if (!qteInput || !puInput || !montantSpan) return;
 
       const ligne = {
         qte: qteInput.value,
         prixUnitaire: puInput.value,
+        remisePct: remisePctInput?.value ?? 0,
+        remiseMontant: remiseMontantInput?.value ?? 0,
       };
 
       lignes.push(ligne);
       montantSpan.textContent = formatNum(
-        calculerMontantHT(ligne.qte, ligne.prixUnitaire),
+        calculerMontantHT(
+          ligne.qte,
+          ligne.prixUnitaire,
+          ligne.remisePct,
+          ligne.remiseMontant,
+        ),
       );
     });
 
-    const totaux = calculerTotaux(lignes, tvaInput.value, getRegimeTva());
+    const remiseGlobale = {
+      pct: remiseGlobalePctInput?.value ?? 0,
+      montant: remiseGlobaleMontantInput?.value ?? 0,
+    };
+    const totaux = calculerTotaux(
+      lignes,
+      tvaInput.value,
+      getRegimeTva(),
+      remiseGlobale,
+    );
+
+    if (ligneRemiseGlobale) {
+      ligneRemiseGlobale.hidden = totaux.remiseGlobaleValeur <= 0;
+    }
+    if (totalRemiseGlobale) {
+      totalRemiseGlobale.textContent = formatNum(totaux.remiseGlobaleValeur);
+    }
     $("#totalHT").textContent = formatNum(totaux.totalHT);
     $("#totalTVA").textContent = formatNum(totaux.totalTVA);
     $("#totalTTC").textContent = formatNum(totaux.totalTTC);
@@ -389,7 +431,49 @@ export function initFacture({ parametres, produits, tarifs, store }) {
     });
   }
 
-  function beforeExport() {
+  function masquerColonneRemiseSiVide({ inputSelector, colSelector, index }) {
+    const remiseExiste = Array.from(
+      document.querySelectorAll(`#linesTable tbody ${inputSelector}`),
+    ).some((input) => Math.abs(parseNum(input.value)) > 0);
+
+    if (remiseExiste) return;
+
+    document
+      .querySelectorAll(
+        `#linesTable ${colSelector}, #linesTable thead th:nth-child(${index}), #linesTable tbody td:nth-child(${index})`,
+      )
+      .forEach((element) => {
+        element.dataset.exportPreviousDisplay = element.style.display;
+        element.dataset.exportHiddenDiscountColumn = "true";
+        element.style.display = "none";
+      });
+  }
+
+  function masquerColonnesRemiseVides() {
+    masquerColonneRemiseSiVide({
+      inputSelector: ".remise-pct",
+      colSelector: "col.c-remise-pct",
+      index: 5,
+    });
+    masquerColonneRemiseSiVide({
+      inputSelector: ".remise-montant",
+      colSelector: "col.c-remise-montant",
+      index: 6,
+    });
+  }
+
+  function restaurerColonnesRemise() {
+    document
+      .querySelectorAll('[data-export-hidden-discount-column="true"]')
+      .forEach((element) => {
+        element.style.display = element.dataset.exportPreviousDisplay || "";
+        delete element.dataset.exportPreviousDisplay;
+        delete element.dataset.exportHiddenDiscountColumn;
+      });
+  }
+
+  function beforeExport({ masquerRemisesVides = false } = {}) {
+    if (masquerRemisesVides) masquerColonnesRemiseVides();
     convertDatesForExport();
     convertInputsToText();
   }
@@ -397,6 +481,7 @@ export function initFacture({ parametres, produits, tarifs, store }) {
   function afterExport() {
     restoreInputsFromText();
     restoreDatesAfterExport();
+    restaurerColonnesRemise();
   }
 
   function getNumeroComplet() {
@@ -410,6 +495,8 @@ export function initFacture({ parametres, produits, tarifs, store }) {
     tauxTvaStandard = this.value;
     calc();
   });
+  remiseGlobalePctInput?.addEventListener("input", calc);
+  remiseGlobaleMontantInput?.addEventListener("input", calc);
   regimeTvaSelect?.addEventListener("change", () => appliquerRegimeTva());
   numeroSuffix.addEventListener("input", function () {
     this.value = limiterSuffixe(this.value);

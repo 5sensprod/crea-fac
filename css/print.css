@@ -1,28 +1,75 @@
 /* Rôle : règles d'impression et de conversion temporaire pour html2pdf. */
-.no-export{}
-body.exporting .no-export{ display:none !important; }
-body.exporting .lines-table col.c-del{ width:0 !important; }
-body.exporting .lines-table col.c-desc{ width:50% !important; }
-body.exporting td{
-  overflow:visible !important;
-  height:auto !important;
+.no-export {
 }
-body.exporting .lines-table tbody tr td{ height:auto !important; }
-body.exporting .export-text{ line-height:1.4 !important; }
+body.exporting .no-export {
+  display: none !important;
+}
+body.exporting .lines-table col.c-del {
+  width: 0 !important;
+}
+body.exporting .lines-table col.c-desc {
+  width: 50% !important;
+}
+body.exporting td {
+  overflow: visible !important;
+  height: auto !important;
+  vertical-align: middle !important;
+}
+body.exporting .lines-table tbody tr td {
+  height: auto !important;
+}
+body.exporting .lines-table tbody tr:last-child td {
+  padding-bottom: 9px !important;
+}
+body.exporting .export-text {
+  line-height: 1.4 !important;
+}
 
-@media print{
-  .no-export{ display:none !important; }
-  body{ background:#fff; }
-  .page{
-    margin:0;
-    padding:15px;
-    max-width:none;
+/* La cellule de ligne (~37px) est plus haute que l'input/span (~22px) : à
+   l'export, html2canvas ne recentre pas ce contenu court, d'où le code qui
+   flotte en haut. On uniformise la hauteur du contenu exporté et on réduit le
+   padding vertical du td pour supprimer l'espace où le texte pouvait flotter. */
+body.exporting .lines-table tbody td {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  vertical-align: middle !important;
+}
+body.exporting .lines-table tbody td .export-text {
+  min-height: 18px !important;
+  line-height: 18px !important;
+  padding: 0 2px !important;
+}
+
+@media print {
+  .no-export {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .page {
+    margin: 0;
+    padding: 15px;
+    max-width: none;
   }
   input:hover,
   input:focus,
   span:hover,
-  span:focus{
-    background:transparent !important;
-    outline:none !important;
+  span:focus {
+    background: transparent !important;
+    outline: none !important;
   }
+}
+body.exporting .lines-table col.c-del {
+  width: 0 !important;
+}
+
+body.exporting .lines-table col.c-desc {
+  width: 38% !important;
+}
+
+body.exporting .lines-table td.code .export-text {
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
 }
