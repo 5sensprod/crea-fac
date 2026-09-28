@@ -1,2 +1,4 @@
 # Paramètres locaux / données sensibles
 data/parametres.js
+*output
+__pycache__/
