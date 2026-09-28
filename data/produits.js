@@ -42,4 +42,11 @@ export const produits = [
     description: "Animation / motion design",
     unite: "heure",
   },
+  {
+    id: "prod-impression-depliants",
+    code: "AR00020",
+    categorie: "Impression",
+    description: "Impression dépliants (lot de 1000)",
+    unite: "lot",
+  },
 ];

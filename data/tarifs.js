@@ -1,4 +1,7 @@
 // Rôle : tarifs HT associés aux produits.
+// prixUnitaireHT      : tarif du régime standard (TVA applicable).
+// prixUnitaireHTFranchise : tarif appliqué en franchise en base (auto-entrepreneur),
+//                           optionnel — à défaut, prixUnitaireHT est utilisé.
 export const tarifs = [
   {
     produitId: "prod-domaine-home-pizza",
@@ -10,26 +13,36 @@ export const tarifs = [
   },
   {
     produitId: "service-developpement",
-    prixUnitaireHT: 49,
+    prixUnitaireHT: 55,
+    prixUnitaireHTFranchise: 55,
   },
   {
     produitId: "service-modification-web",
-    prixUnitaireHT: 49,
+    prixUnitaireHT: 55,
+    prixUnitaireHTFranchise: 55,
   },
   {
     produitId: "service-communication-digitale",
-    prixUnitaireHT: 49,
+    prixUnitaireHT: 55,
+    prixUnitaireHTFranchise: 55,
   },
   {
     produitId: "service-graphisme",
-    prixUnitaireHT: 49,
+    prixUnitaireHT: 55,
+    prixUnitaireHTFranchise: 55,
   },
   {
     produitId: "service-audiovisuel",
-    prixUnitaireHT: 49,
+    prixUnitaireHT: 55,
+    prixUnitaireHTFranchise: 55,
   },
   {
     produitId: "service-animation",
-    prixUnitaireHT: 49,
+    prixUnitaireHT: 55,
+    prixUnitaireHTFranchise: 55,
+  },
+  {
+    produitId: "prod-impression-depliants",
+    prixUnitaireHT: 219.8,
   },
 ];
